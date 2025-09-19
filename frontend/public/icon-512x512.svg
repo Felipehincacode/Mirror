@@ -1,0 +1,37 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#1a1a1a"/>
+
+  <!-- Mirror frame -->
+  <rect x="64" y="64" width="384" height="384" rx="32" ry="32" fill="#2a2a2a" stroke="#ffffff" stroke-width="4"/>
+
+  <!-- Inner mirror surface -->
+  <rect x="80" y="80" width="352" height="352" rx="24" ry="24" fill="#4a4a4a"/>
+
+  <!-- Reflection effect -->
+  <rect x="80" y="80" width="352" height="176" rx="24" ry="24" fill="url(#reflectionGradient)"/>
+  <rect x="80" y="256" width="352" height="176" rx="24" ry="24" fill="#3a3a3a"/>
+
+  <!-- Mirror shine -->
+  <ellipse cx="256" cy="160" rx="100" ry="60" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Camera lens effect -->
+  <circle cx="256" cy="256" r="50" fill="#ffffff" opacity="0.2"/>
+  <circle cx="256" cy="256" r="30" fill="#ffffff" opacity="0.4"/>
+  <circle cx="256" cy="256" r="15" fill="#ffffff" opacity="0.6"/>
+
+  <!-- Decorative elements -->
+  <circle cx="160" cy="160" r="8" fill="#ffffff" opacity="0.5"/>
+  <circle cx="352" cy="160" r="8" fill="#ffffff" opacity="0.5"/>
+  <circle cx="160" cy="352" r="8" fill="#ffffff" opacity="0.3"/>
+  <circle cx="352" cy="352" r="8" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="reflectionGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4"/>
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.1"/>
+    </linearGradient>
+  </defs>
+</svg>

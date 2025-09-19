@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mirror PWA Design System - Dark Material You Theme */
+
+@layer base {
+  :root {
+    /* Calendar-inspired luminous color palette */
+    --background: 0 100% 92%; /* Tea Rose Red #ffd4d4 - main background */
+    --foreground: 0 0% 15%; /* Raisin Black #272727 - text */
+
+    --surface: 0 100% 95%; /* Very light pink */
+    --surface-dim: 0 100% 88%; /* Slightly darker pink */
+    --surface-bright: 0 100% 98%; /* Almost white pink */
+    --surface-container: 0 100% 96%; /* Light container */
+    --surface-container-high: 0 100% 97%; /* Higher container */
+    --surface-container-highest: 312 100% 95%; /* Highest container with plum tint */
+
+    /* Primary - Sapphire #2b50aa */
+    --primary: 223 60% 42%;
+    --primary-foreground: 0 100% 98%;
+    --primary-container: 223 60% 90%;
+    --primary-container-foreground: 223 60% 20%;
+
+    /* Secondary - Plum Web #ff9fe5 */
+    --secondary: 312 100% 81%;
+    --secondary-foreground: 312 30% 20%;
+    --secondary-container: 312 100% 92%;
+    --secondary-container-foreground: 312 30% 25%;
+
+    /* Accent - Light Red #ff858d for highlights */
+    --accent: 356 100% 76%;
+    --accent-foreground: 0 0% 10%;
+    --accent-muted: 356 50% 85%;
+
+    /* Neutral variants */
+    --outline: 0 0% 60%;
+    --outline-variant: 0 0% 70%;
+
+    /* Semantic colors */
+    --error: 356 100% 65%; /* Slightly darker light red */
+    --error-foreground: 0 0% 10%;
+    --warning: 45 100% 60%;
+    --success: 120 100% 40%;
+
+    /* Component specific */
+    --card: 0 100% 96%;
+    --card-foreground: 0 0% 15%;
+    --border: 0 0% 70%;
+    --input: 0 100% 96%;
+    --ring: 223 60% 42%;
+    --muted: 0 100% 94%;
+    --muted-foreground: 0 0% 0%;
+
+    /* Gradients using calendar palette - more luminous */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    --gradient-surface: linear-gradient(180deg, hsl(var(--surface)), hsl(var(--background)));
+    --gradient-glow: radial-gradient(circle at center, hsl(var(--secondary) / 0.4), transparent 70%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--secondary)));
+
+    /* Shadows - softer for luminous theme */
+    --shadow-soft: 0 2px 16px hsl(0 0% 0% / 0.1);
+    --shadow-medium: 0 4px 24px hsl(0 0% 0% / 0.15);
+    --shadow-strong: 0 8px 32px hsl(0 0% 0% / 0.2);
+    --shadow-glow: 0 0 24px hsl(var(--primary) / 0.3);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Fredoka One', cursive;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Custom cursors - create smaller versions using CSS */
+  * {
+    cursor: url("data:image/svg+xml,%3csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3e%3cimage href='/cursor/Adventure Time Chibi Finn %26 Princess Bubblegum--cursor--SweezyCursors.png' width='16' height='16'/%3e%3c/svg%3e") 8 8, auto;
+  }
+  
+  body {
+    cursor: url("data:image/svg+xml,%3csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3e%3cimage href='/cursor/Adventure Time Chibi Finn %26 Princess Bubblegum--cursor--SweezyCursors.png' width='16' height='16'/%3e%3c/svg%3e") 8 8, auto;
+  }
+  
+  /* Custom cursors for interactive elements */
+  button, a, [role="button"], .cursor-pointer {
+    cursor: url("data:image/svg+xml,%3csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3e%3cimage href='/cursor/Adventure Time Chibi Finn %26 Princess Bubblegum--pointer--SweezyCursors.png' width='16' height='16'/%3e%3c/svg%3e") 8 8, pointer !important;
+  }
+  
+  input, textarea, select {
+    cursor: url("data:image/svg+xml,%3csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3e%3cimage href='/cursor/Adventure Time Chibi Finn %26 Princess Bubblegum--cursor--SweezyCursors.png' width='16' height='16'/%3e%3c/svg%3e") 8 8, text;
+  }
+}
+
+@layer components {
+  /* PWA Scroll Snap Container */
+  .scroll-container {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .scroll-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  
+  /* Glassmorphism effect */
+  .glass {
+    background: hsl(var(--surface) / 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--outline-variant) / 0.2);
+  }
+  
+  /* Animated gradient backgrounds */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-surface {
+    background: var(--gradient-surface);
+  }
+  
+  /* Floating Action Button */
+  .fab {
+    @apply fixed bottom-20 right-6 w-14 h-14 rounded-full;
+    @apply bg-primary text-primary-foreground;
+    @apply shadow-lg hover:shadow-xl;
+    @apply transform transition-all duration-300;
+    @apply hover:scale-110 active:scale-95;
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* Bottom navigation */
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 right-0 h-16;
+    @apply glass border-t border-outline-variant/20;
+    @apply z-50;
+  }
+  
+  /* Card flip animation */
+  .flip-card {
+    perspective: 1000px;
+    cursor: pointer;
+  }
+  
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+  }
+  
+  .flip-card-inner.flipped {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 1.5rem;
+  }
+  
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+  
+  /* Hover effect for flip card */
+  .flip-card:hover .flip-card-inner {
+    transform: scale(1.02);
+  }
+  
+  .flip-card:hover .flip-card-inner.flipped {
+    transform: rotateY(180deg) scale(1.02);
+  }
+  
+  /* Mirror logo reflection animation */
+  .mirror-logo {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .mirror-logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.2), 
+      transparent
+    );
+    transition: left 0.6s;
+  }
+  
+  .mirror-logo:hover::before {
+    left: 100%;
+  }
+  
+  /* Additional cursor styles for specific components */
+  .flip-card {
+    cursor: url("data:image/svg+xml,%3csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3e%3cimage href='/cursor/Adventure Time Chibi Finn %26 Princess Bubblegum--pointer--SweezyCursors.png' width='16' height='16'/%3e%3c/svg%3e") 8 8, pointer !important;
+  }
+  
+  .fab {
+    cursor: url("data:image/svg+xml,%3csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3e%3cimage href='/cursor/Adventure Time Chibi Finn %26 Princess Bubblegum--pointer--SweezyCursors.png' width='16' height='16'/%3e%3c/svg%3e") 8 8, pointer !important;
+  }
+  
+  .mirror-logo {
+    cursor: url("data:image/svg+xml,%3csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3e%3cimage href='/cursor/Adventure Time Chibi Finn %26 Princess Bubblegum--pointer--SweezyCursors.png' width='16' height='16'/%3e%3c/svg%3e") 8 8, pointer !important;
+  }
+  
+  /* Parallax Scrolling Background */
+  .parallax-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+    will-change: transform;
+    transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+  }
+
+  /* Leaflet Custom Styles */
+  .custom-marker {
+    background: none !important;
+    border: none !important;
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: hsl(var(--surface));
+    color: hsl(var(--foreground));
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 24px hsl(var(--background) / 0.6);
+    border: 1px solid hsl(var(--outline-variant) / 0.2);
+  }
+
+  .leaflet-popup-tip {
+    background: hsl(var(--surface));
+  }
+
+  .leaflet-popup-content {
+    margin: 0;
+    font-family: inherit;
+    line-height: 1.5;
+  }
+
+  .leaflet-popup-content img {
+    border-radius: 0.375rem;
+  }
+
+  .leaflet-control-container .leaflet-control {
+    background: hsl(var(--surface));
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--outline-variant) / 0.2);
+  }
+
+  .leaflet-control-container .leaflet-control a {
+    color: hsl(var(--foreground));
+  }
+
+  .leaflet-control-container .leaflet-control a:hover {
+    background: hsl(var(--surface-container));
+  }
+  
+  /* Parallax movement classes for different views */
+  .parallax-home {
+    transform: translateX(0%) scale(1.1) !important;
+  }
+  
+  .parallax-gallery {
+    transform: translateX(-25%) scale(1.1) !important;
+  }
+  
+  .parallax-calendar {
+    transform: translateX(-50%) scale(1.1) !important;
+  }
+  
+  .parallax-map {
+    transform: translateX(-75%) scale(1.1) !important;
+  }
+  
+  /* Smooth scrolling animation */
+  @keyframes parallaxFloat {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  .parallax-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    animation: parallaxFloat 6s ease-in-out infinite;
+  }
+}

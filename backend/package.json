@@ -1,0 +1,32 @@
+{
+  "name": "diario-fotografico-backend",
+  "version": "1.0.0",
+  "description": "Backend scripts para la PWA Diario Fotográfico",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "populate-challenges": "node scripts/populate_challenges.js",
+    "seed-users": "node scripts/seed_users.js",
+    "test-connection": "node scripts/test_connection.js",
+    "test-api": "node scripts/test_api_functions.js",
+    "test-frontend": "node scripts/test_frontend_apis.js",
+    "reset-database": "node scripts/reset_database.js",
+    "test-notifications": "node scripts/notifications.js",
+    "send-reminder": "node -e \"import('./scripts/notifications.js').then(m => m.sendDailyReminder())\"",
+    "generate-vapid": "node scripts/generate_vapid_keys.js",
+    "audit": "node scripts/audit_complete.js",
+    "change-password": "node scripts/change_password.js",
+    "setup-api": "echo 'Ejecuta los archivos sql/api_functions.sql, sql/submissions_functions.sql y sql/notifications_functions.sql en Supabase'"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "keywords": ["supabase", "pwa", "diario", "fotografico"],
+  "author": "Felipe",
+  "license": "MIT"
+}
