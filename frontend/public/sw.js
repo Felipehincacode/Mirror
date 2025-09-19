@@ -1,10 +1,11 @@
 // Service Worker for mirror PWA
-const CACHE_NAME = 'mirror-v1';
+const CACHE_NAME = 'mirror-v2';
 const STATIC_CACHE = [
   '/',
   '/manifest.json',
-  '/icon-192x192.svg',
-  '/icon-512x512.svg'
+  '/icon-192x192.png',
+  '/icon-512x512.png',
+  '/favicon.ico'
 ];
 
 // Install event
@@ -57,8 +58,8 @@ self.addEventListener('push', (event) => {
 
   const options = {
     body: data.body || 'Tienes una nueva notificación',
-    icon: data.icon || '/icon-192x192.svg',
-    badge: data.badge || '/icon-192x192.svg',
+    icon: data.icon || '/icon-192x192.png',
+    badge: data.badge || '/icon-192x192.png',
     tag: data.tag || 'default',
     data: data.data || {},
     actions: data.actions || [],
@@ -344,8 +345,8 @@ async function syncUploads() {
 
     await self.registration.showNotification(notificationTitle, {
       body: notificationBody,
-      icon: '/icon-192x192.svg',
-      badge: '/icon-192x192.svg',
+      icon: '/icon-192x192.png',
+      badge: '/icon-192x192.png',
       tag: 'sync-result',
       requireInteraction: false
     });
@@ -358,8 +359,8 @@ async function syncUploads() {
     // Send error notification
     await self.registration.showNotification('Sync Error', {
       body: 'Failed to sync offline photos. Please check your connection.',
-      icon: '/icon-192x192.svg',
-      badge: '/icon-192x192.svg',
+      icon: '/icon-192x192.png',
+      badge: '/icon-192x192.png',
       tag: 'sync-error',
       requireInteraction: false
     });
