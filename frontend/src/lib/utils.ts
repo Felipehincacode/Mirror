@@ -104,35 +104,53 @@ export function urlBase64ToUint8Array(base64String: string): Uint8Array {
 }
 
 export async function registerServiceWorker(): Promise<ServiceWorkerRegistration | null> {
+  console.log('[DEBUG] registerServiceWorker called');
+  console.log('[DEBUG] serviceWorker in navigator:', 'serviceWorker' in navigator);
+
   if ('serviceWorker' in navigator) {
     try {
+      console.log('[DEBUG] Registering service worker at /sw.js...');
       const registration = await navigator.serviceWorker.register('/sw.js', {
         scope: '/'
       });
-      console.log('Service Worker registered:', registration);
+      console.log('[DEBUG] Service Worker registered successfully:', registration);
+      console.log('[DEBUG] Service worker state:', registration.active?.state);
+      console.log('[DEBUG] Service worker scope:', registration.scope);
       return registration;
     } catch (error) {
-      console.error('Service Worker registration failed:', error);
+      console.error('[DEBUG] Service Worker registration failed:', error);
       return null;
     }
   }
+
+  console.log('[DEBUG] Service Worker not supported');
   return null;
 }
 
 export async function requestNotificationPermission(): Promise<NotificationPermission> {
+  console.log('[DEBUG] requestNotificationPermission called');
+  console.log('[DEBUG] Notification in window:', 'Notification' in window);
+
   if (!('Notification' in window)) {
+    console.error('[DEBUG] Notifications not supported by browser');
     throw new Error('This browser does not support notifications');
   }
 
+  console.log('[DEBUG] Current permission state:', Notification.permission);
+
   if (Notification.permission === 'granted') {
+    console.log('[DEBUG] Permission already granted');
     return 'granted';
   }
 
   if (Notification.permission === 'denied') {
+    console.log('[DEBUG] Permission already denied');
     return 'denied';
   }
 
+  console.log('[DEBUG] Requesting permission from user...');
   const permission = await Notification.requestPermission();
+  console.log('[DEBUG] User responded with permission:', permission);
   return permission;
 }
 

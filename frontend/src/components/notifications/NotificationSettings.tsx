@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Bell, BellOff, TestTube, Trash2, Loader2 } from 'lucide-react';
+import { Bell, BellOff, TestTube, Trash2, Loader2, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -16,8 +16,14 @@ export const NotificationSettings = ({
 }: NotificationSettingsProps) => {
   const [isTesting, setIsTesting] = useState(false);
   const [isUnsubscribing, setIsUnsubscribing] = useState(false);
-  const [dailyReminders, setDailyReminders] = useState(true);
-  const [achievementNotifications, setAchievementNotifications] = useState(true);
+  const [dailyReminders, setDailyReminders] = useState(() => {
+    // Load from localStorage or default to true
+    return localStorage.getItem('dailyReminders') !== 'false';
+  });
+  const [achievementNotifications, setAchievementNotifications] = useState(() => {
+    // Load from localStorage or default to true
+    return localStorage.getItem('achievementNotifications') !== 'false';
+  });
 
   const handleTestNotification = async () => {
     setIsTesting(true);
@@ -41,6 +47,18 @@ export const NotificationSettings = ({
     }
   };
 
+  const handleDailyRemindersChange = (checked: boolean) => {
+    setDailyReminders(checked);
+    localStorage.setItem('dailyReminders', checked.toString());
+    console.log('[DEBUG] Daily reminders setting changed to:', checked);
+  };
+
+  const handleAchievementNotificationsChange = (checked: boolean) => {
+    setAchievementNotifications(checked);
+    localStorage.setItem('achievementNotifications', checked.toString());
+    console.log('[DEBUG] Achievement notifications setting changed to:', checked);
+  };
+
   return (
     <div className="space-y-6">
       {/* Status */}
@@ -49,7 +67,14 @@ export const NotificationSettings = ({
         <div>
           <p className="text-sm font-medium">Notificaciones activas</p>
           <p className="text-xs text-muted-foreground">
-            Recibirás recordatorios diarios de tus retos
+            {dailyReminders && achievementNotifications
+              ? 'Recibirás recordatorios diarios y notificaciones de logros'
+              : dailyReminders
+              ? 'Recibirás recordatorios diarios'
+              : achievementNotifications
+              ? 'Recibirás notificaciones de logros'
+              : 'Las notificaciones están desactivadas en la configuración'
+            }
           </p>
         </div>
       </div>
@@ -66,7 +91,7 @@ export const NotificationSettings = ({
             <Switch
               id="daily-reminders"
               checked={dailyReminders}
-              onCheckedChange={setDailyReminders}
+              onCheckedChange={handleDailyRemindersChange}
             />
           </div>
 
@@ -77,7 +102,7 @@ export const NotificationSettings = ({
             <Switch
               id="achievements"
               checked={achievementNotifications}
-              onCheckedChange={setAchievementNotifications}
+              onCheckedChange={handleAchievementNotificationsChange}
             />
           </div>
         </div>
@@ -115,6 +140,26 @@ export const NotificationSettings = ({
             <BellOff className="h-4 w-4 mr-2" />
           )}
           {isUnsubscribing ? 'Desactivando...' : 'Desactivar notificaciones'}
+        </Button>
+
+        <Button
+          variant="outline"
+          onClick={() => {
+            if (confirm('¿Quieres restablecer los permisos de notificación? Esto puede ayudar si las notificaciones están atascadas.')) {
+              // Clear localStorage settings
+              localStorage.removeItem('dailyReminders');
+              localStorage.removeItem('achievementNotifications');
+              // Reset to defaults
+              setDailyReminders(true);
+              setAchievementNotifications(true);
+              console.log('[DEBUG] Notification settings reset to defaults');
+              alert('Configuración restablecida. Recarga la página para aplicar los cambios.');
+            }
+          }}
+          className="w-full justify-start"
+        >
+          <Settings className="h-4 w-4 mr-2" />
+          Restablecer configuración
         </Button>
       </div>
 

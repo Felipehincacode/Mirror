@@ -29,10 +29,18 @@ export const useNotifications = () => {
   // Check if notifications are supported
   useEffect(() => {
     const checkSupport = () => {
+      console.log('[DEBUG] Checking notification support...');
+      console.log('[DEBUG] serviceWorker in navigator:', 'serviceWorker' in navigator);
+      console.log('[DEBUG] PushManager in window:', 'PushManager' in window);
+      console.log('[DEBUG] Notification in window:', 'Notification' in window);
+
       const isSupported = 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+      console.log('[DEBUG] Notifications supported:', isSupported);
+
       setState(prev => ({ ...prev, isSupported }));
 
       if (isSupported) {
+        console.log('[DEBUG] Current notification permission:', Notification.permission);
         setState(prev => ({ ...prev, permission: Notification.permission }));
       }
     };
@@ -60,21 +68,31 @@ export const useNotifications = () => {
   };
 
   const requestPermission = async (): Promise<boolean> => {
-    if (!state.isSupported) return false;
+    console.log('[DEBUG] requestPermission called');
+    if (!state.isSupported) {
+      console.log('[DEBUG] Notifications not supported, returning false');
+      return false;
+    }
 
+    console.log('[DEBUG] Setting loading state to true');
     setState(prev => ({ ...prev, isLoading: true }));
 
     try {
+      console.log('[DEBUG] Calling requestNotificationPermission...');
       const permission = await requestNotificationPermission();
+      console.log('[DEBUG] Permission result:', permission);
+
       setState(prev => ({ ...prev, permission, isLoading: false }));
 
       if (permission === 'granted') {
+        console.log('[DEBUG] Permission granted, calling subscribe...');
         return await subscribe();
       }
 
+      console.log('[DEBUG] Permission not granted:', permission);
       return false;
     } catch (error) {
-      console.error('Error requesting permission:', error);
+      console.error('[DEBUG] Error requesting permission:', error);
       setState(prev => ({ ...prev, isLoading: false }));
       return false;
     }

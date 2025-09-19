@@ -30,6 +30,7 @@ export const UploadModal = ({ isOpen, onClose, challengeId, onSuccess }: UploadM
   const [isCompressing, setIsCompressing] = useState(false);
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploadPhoto, createSubmission } = useApi();
@@ -66,18 +67,52 @@ export const UploadModal = ({ isOpen, onClose, challengeId, onSuccess }: UploadM
   };
 
   const handleGetLocation = () => {
+    console.log('[DEBUG] handleGetLocation called');
+    console.log('[DEBUG] navigator.geolocation available:', !!navigator.geolocation);
+
+    // Check if we're in a secure context (required for geolocation)
+    console.log('[DEBUG] isSecureContext:', window.isSecureContext);
+    console.log('[DEBUG] protocol:', window.location.protocol);
+
+    // Clear any previous error when starting a new request
+    setLocationError(null);
     setIsGettingLocation(true);
     if (navigator.geolocation) {
+      console.log('[DEBUG] Requesting geolocation permission...');
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          console.log('[DEBUG] Geolocation success:', position.coords);
           setLocation({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
+          setLocationError(null); // Clear any previous error
           setIsGettingLocation(false);
         },
         (error) => {
-          console.error('Error getting location:', error);
+          console.error('[DEBUG] Geolocation error:', error);
+          console.error('[DEBUG] Error code:', error.code);
+          console.error('[DEBUG] Error message:', error.message);
+
+          // Set user-friendly error messages in the UI instead of alerts
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              console.error('[DEBUG] User denied geolocation permission');
+              setLocationError('Location permission denied. Enable location access in browser settings and try again.');
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.error('[DEBUG] Location information unavailable');
+              setLocationError('Location unavailable. Check GPS settings and try again.');
+              break;
+            case error.TIMEOUT:
+              console.error('[DEBUG] Geolocation request timed out');
+              setLocationError('Location request timed out. Please try again.');
+              break;
+            default:
+              console.error('[DEBUG] Unknown geolocation error');
+              setLocationError('Unable to get location. Please try again.');
+          }
+
           setIsGettingLocation(false);
         },
         {
@@ -87,6 +122,8 @@ export const UploadModal = ({ isOpen, onClose, challengeId, onSuccess }: UploadM
         }
       );
     } else {
+      console.error('[DEBUG] Geolocation API not available');
+      console.warn('Geolocation not supported by this browser');
       setIsGettingLocation(false);
     }
   };
@@ -126,6 +163,7 @@ export const UploadModal = ({ isOpen, onClose, challengeId, onSuccess }: UploadM
     setTitle('');
     setNote('');
     setLocation(null);
+    setLocationError(null);
     setIsGettingLocation(false);
     setIsCompressing(false);
     onClose();
@@ -241,12 +279,17 @@ export const UploadModal = ({ isOpen, onClose, challengeId, onSuccess }: UploadM
                 ) : (
                   <MapPin className="h-4 w-4 mr-2" />
                 )}
-                {location ? 'Location Added' : 'Add Location'}
+                {location ? 'Location Added' : locationError ? 'Try Again' : 'Add Location'}
               </Button>
             </div>
             {location && (
               <p className="text-xs text-muted-foreground">
                 Location captured: {location.lat.toFixed(6)}, {location.lng.toFixed(6)}
+              </p>
+            )}
+            {locationError && (
+              <p className="text-xs text-red-600 dark:text-red-400">
+                {locationError}
               </p>
             )}
           </div>
