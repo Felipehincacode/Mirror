@@ -1,23 +1,27 @@
 {
-  "name": "mirror - Daily Photo Challenges",
+  "name": "la aplicación que nos une incluso aunque nos separen oceanos",
   "short_name": "mirror",
   "description": "A minimalist PWA for daily photo challenges between partners",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1a1a1a",
-  "theme_color": "#1a1a1a",
+  "background_color": "#ffd4d4",
+  "theme_color": "#ffd4d4",
   "orientation": "portrait",
+  "permissions": [
+    "geolocation",
+    "notifications"
+  ],
   "icons": [
     {
-      "src": "/icon-192x192.svg",
+      "src": "/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512x512.svg",
+      "src": "/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
